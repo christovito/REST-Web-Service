@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rumput Tetangga</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="shortcut icon" href="{{url_for('static', filename = 'grass.png' )}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: "Open Sans";
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    {% block content %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="text-align:left; padding-left:183px" href="{{ url_for('home')}}"><b>Rumput Tetangga</b></a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right" style= "padding-right:150px">
+                    <li role="presentation"><a href="{{ url_for('home')}}">Home</a></li>
+                    <li role="presentation" class="active"><a href="{{ url_for('product_page')}}">Products</a></li>
+                    <li role="presentation"><a href="{{ url_for('profile')}}">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col md-12">
+                {% for row in products %}
+                <div style = "padding-top:10px">
+                    {%with messages = get_flashed_messages()%}
+                    {%if messages%}
+                    {% for message in messages %}
+                    <div class="alert alert-success alert-dismissable" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{message}}
+                    </div>
+                    {%endfor%}
+                    {%endif%}
+                    {%endwith%}
+                    <div id="myid">
+                        <h3 ><b>Product ID<b></h3>
+                        <h5 >{{row.0}}</h5>
+                        <h3 ><b>Name<b></h3>
+                        <h5 >{{row.1}}</h5>
+                        <h3 ><b>Stock<b></h3>
+                        <h5 >{{row.2}}</h5>
+                        <h3 ><b>Price<b></h3>
+                        <h5 >{{row.3}}</h5>
+                        <h3 ><b>Supplier<b></h3>
+                        <h5 >{{row.4}}</h5>
+                        <h3 ><b>Description<b></h3>
+                        <h5 >{{row.5}}</h5>
+                        <h3 ><b>Time Added<b></h3>
+                        <h5 >{{row.6}}</h5>
+                    </div>
+                    <p style="padding-top: 15px">
+                        <button class="btn btn-success" data-toggle="modal"
+                            data-target="#modaledit{{row.0}}">Update</button>
+                        <a href="{{ url_for('product_page')}}" class="btn btn-default">Back</a>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="modaledit{{row.0}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Update Existing Product</h4>
+                    </div>
+        
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input type="text" class="form-control" name="id" id="id_details" value="{{row.0}}" readonly = "readonly" style="font-weight:normal">
+        
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                
+                                <input type="text" class="form-control" name="name" id="name_details" value="{{row.1}}" style="font-weight:normal">
+                            </div>
+                            <div class="form-group">
+                                <label>Stock</label>
+                                <input type="text" class="form-control" name="stock" id="stock_details" value="{{row.2}}" style="font-weight:normal">
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="text" class="form-control" name="price" id="price_details" value="{{row.3}}" style="font-weight:normal">
+                            </div>
+                            <div class="form-group">
+                                <label>Supplier</label>
+                                <input type="text" class="form-control" name="supplier" id="supplier_details" value="{{row.4}}" style="font-weight:normal">
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <input type="text" class="form-control" name="description" id="description_details" value="{{row.5}}" style="font-weight:normal">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success" onclick="update_details()">Update</button>
+                                <script>
+                                    function update_details() {
+                                        $.ajax({
+                                            url: "/product/{{row.0}}/details",
+                                            type: 'PUT',
+                                            data: {
+                                                'id': $('#id_details').val(),
+                                                'name': $('#name_details').val(),
+                                                'stock': $('#stock_details').val(),
+                                                'price': $('#price_details').val(),
+                                                'supplier': $('#supplier_details').val(),
+                                                'description': $('#description_details').val()
+                                            },
+
+                                            success: function (response) {
+                                                console.log(response);
+                                                $("#myid").load("#myid");
+
+                                            },
+                                            error: function (error) {
+                                                console.log(error);
+                                            }
+                                        });
+                                    };
+
+                                </script>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock content %}
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rumput Tetangga</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="shortcut icon" href="{{url_for('static', filename = 'grass.png' )}}">
+    <style>
+        body {
+            font-family: "Open Sans";
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div style = "padding-top:180px">
+            <h1 style="text-align:left; padding-left:183px"><b>Welcome to Rumput Tetangga!<b> </h1>
+            <h2 style="text-align:left; padding-left:183px">Ready to work?</h2>
+            <p style="text-align:left; padding-left:183px; padding-top: 15px">
+                <a href="{{ url_for('login')}}" class="btn btn-success">Login with Google</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

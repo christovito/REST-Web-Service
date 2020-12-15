@@ -1,0 +1,179 @@
+        body {
+            font-family: "Open Sans";
+            margin: 0px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        /* Nav Style */
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            padding: 38px;
+        }
+
+        .left-side {
+            display: flex;
+            padding-left: 113px;
+        }
+        
+        .right-side {
+            padding-right: 96px;
+        }
+
+        .nav-wrapper > .left-side > div {
+            margin-right: 20px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .nav-link-wrapper {
+            height: 22px;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.5s;
+        }
+
+        .nav-link-wrapper a {
+            color: #8a8a8a;
+            text-decoration: none;
+            transition: color 0.5s;
+        }
+
+        .nav-link-wrapper:hover {
+            border-bottom: 1px solid black;
+        }
+
+        .nav-link-wrapper a:hover {
+            color: black;
+        }
+
+        .active-nav-link {
+            border-bottom: 1px solid black;
+        }
+
+        .active-nav-link a {
+            color: black !important;
+        }
+
+        /* Portofolio Style */
+
+        .portofolio-items-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .portofolio-item-wrapper {
+            position: relative;
+        }
+
+        .portofolio-img-background {
+            height: 300px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .image-text-wrapper {
+            position: absolute;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            padding-left: 100px;
+            padding-right: 100px;
+        }
+
+        .image-text-wrapper .subtitle {
+            transition: 0.5s ease;
+            font-weight: 600;
+            color: transparent;
+        }
+
+        .image-text-wrapper:hover .subtitle {
+            font-weight: 600;
+            color: #337ab7;
+        }
+
+        .image-text-wrapper .subtitle .amount-ordered-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-top: 50px;
+        }
+
+        .image-text-wrapper .subtitle .amount-ordered-wrapper input[type="submit"] {
+            transition: 0.5s ease;
+            background-color: transparent;
+            color: transparent;
+            border-color: transparent;
+            margin-top: 10px;
+            /* margin-top: 0px;
+            margin-left: 20px;
+            margin-right: 20px; */
+        }
+
+        .image-text-wrapper:hover .subtitle .amount-ordered-wrapper input[type="submit"] {
+            background-color: #337ab7;
+            border-bottom: 1px solid #337ab7;
+            color: white;
+            margin-top: 10px;
+            /* height: 20px;
+            margin-top: 17px;
+            margin-left: 20px;
+            margin-right: 20px; */
+        }
+
+        .image-text-wrapper .subtitle .amount-ordered-wrapper input[type="number"] {
+            transition: 0.5s ease;
+            background-color: transparent;
+            color: transparent;
+            border-color: transparent;
+            margin-top: 10px;
+            /* margin-top: 0px;
+            margin-left: 20px;
+            margin-right: 20px; */
+        }
+
+        .image-text-wrapper:hover .subtitle .amount-ordered-wrapper input[type="number"] {
+            background-color: transparent;
+            border-bottom: 1px solid #337ab7;
+            color: #337ab7;
+            margin-top: 10px;
+            /* height: 20px;
+            margin-top: 17px;
+            margin-left: 20px;
+            margin-right: 20px; */
+        }
+
+        .img-darken {
+            transition: 1s ease;
+            filter: brightness(10%);
+        }
+
+        /* About Style */
+        .two-column-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .profile-image-wrapper img{
+            width: 50%;
+            display: block;
+            margin: 0 auto;
+            flex-direction: column;
+        }
+
+        .profile-content-wrapper {
+            padding: 30px;
+        }
+
+        .profile-content-wrapper h1 {
+            color: #337ab7;
+        }

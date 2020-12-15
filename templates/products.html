@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rumput Tetangga</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="shortcut icon" href="{{url_for('static', filename = 'grass.png' )}}">
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="../static/js/update_product_details.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: "Open Sans";
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    {% block content %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="text-align:left; padding-left:183px" href="home"><b>Rumput Tetangga</b></a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right" style="padding-right:150px">
+                    <li role="presentation" class=><a href="{{ url_for('home')}}">Home</a></li>
+                    <li role="presentation" class="active"><a href="{{ url_for('product_page')}}">Products</a></li>
+                    <li role="presentation"><a href="{{ url_for('profile')}}">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col md-12">   
+                <h2>Product Catalogue <button type="button" class="btn btn-danger  pull-right" style="margin-left:10px" data-toggle="modal" data-target="#myModalDel">Delete
+                    Products</button><button type="button" class="btn btn-success  pull-right" data-toggle="modal"data-target="#myModal">Add New Products</button></h2>  
+                {%with messages = get_flashed_messages()%}   
+                {%if messages%}
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{message}}
+                </div>
+                {%endfor%}
+                {%endif%}
+                {%endwith%}
+                <div id="myid1">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th></th>   
+                        </tr>
+    
+                        {% for row in products %}
+                        <tr>
+                            <td>{{row.0}}</td>
+                            <td>{{row.1}}</td>
+                            <td>{{row.2}}</td>
+                            <td>{{row.3}}</td>
+                            <td>
+                                <a href="/update/{{row.0}}" class="btn btn-primary btn-xs" data-toggle="modal"
+                                    data-target="#modaledit{{row.0}}">Update</a>
+                                <a href="/delete/{{row.0}}"class="btn btn-danger btn-xs">Delete</a>
+                                <a href="/product/{{row.0}}/details" class="btn btn-default btn-xs" >View Details</a>
+                            </td>
+                        </tr>
+                </div>
+    
+                    <div id="modaledit{{row.0}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">    
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Update Existing Product</h4>
+                                </div>
+    
+                                <div class="modal-body">    
+                                    <form action="{{ url_for('update', id='{{row.0}}') }}" method="POST">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="hidden" name="id" id="id" value="{{row.0}}">
+                                            <input type="text" class="form-control" name="name" id="name" value="{{row.1}}" style="font-weight:normal">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label>Stock</label>
+                                            <input type="text" class="form-control" name="stock" id="stock" value="{{row.2}}" style="font-weight:normal">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Price</label>
+                                            <input type="text" class="form-control" name="price" id="price" value="{{row.3}}" style="font-weight:normal">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Supplier</label>
+                                            <input type="text" class="form-control" name="supplier" id="supplier" value="{{row.4}}" style="font-weight:normal">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <input type="text" class="form-control" name="description" id="description" value="{{row.5}}" style="font-weight:normal">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-success" type="submit">Update</button>   
+                                        </div>
+                                    </form>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Insert Data to Add New Products</h4>
+                        </div>
+    
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" name="name" id="name_new" required="1">
+                                </div>
+    
+                                <div class="form-group">
+                                    <label>Stock</label>
+                                    <input type="text" class="form-control" name="stock" id="stock_new" required="1">
+                                </div>
+    
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input type="text" class="form-control" name="price" id="price_new" required="1">
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier</label>
+                                    <input type="text" class="form-control" name="supplier" id="supplier_new" required="1">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <input type="text" class="form-control" name="description" id="description_new" required="1">
+                                </div>
+    
+                                <div class="form-group">
+                                    <button class="btn btn-success" onclick="insert()">Add New Product</button>
+                                    <script>
+                                        function insert() {
+                                            $.ajax({
+                                                url: "/insert",
+                                                type: 'POST',
+                                                data: {
+                                                    'name': $('#name_new').val(),
+                                                    'stock': $('#stock_new').val(),
+                                                    'price': $('#price_new').val(),
+                                                    'supplier': $('#supplier_new').val(),
+                                                    'description': $('#description_new').val()
+                                                },
+
+                                                success: function (response) {
+                                                    console.log(response);
+                                                    $("#myid1").load("#myid1");
+                                                },
+                                                error: function (error) {
+                                                    console.log(error);
+                                                }
+                                            });
+                                        };
+                                    </script>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModalDel" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Existing Products</h4>
+                </div>
+    
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id" id="iddel" required="1">
+                        </div>   
+                        <div class="form-group">
+                            <button class="btn btn-danger" onclick="delete_product()">Delete Product</button>
+                            <script>
+                                function delete_product() {
+                                    $.ajax({
+                                        url: "/delete",
+                                        type: 'DELETE',
+                                        data: {
+                                            'id': $('#iddel').val(),
+                                        },
+
+                                        success: function (response) {
+                                            console.log(response);
+                                            $("#myid1").load("#myid1");
+                                        },
+                                        error: function (error) {
+                                            console.log(error);
+                                        }
+                                    });
+                                };
+                            </script>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+</body>
+
+
+</html>
